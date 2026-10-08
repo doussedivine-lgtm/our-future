@@ -8,48 +8,63 @@
 </head>
 <body>
 
-  <!-- ============ HERO SECTION ============ -->
+  <!-- ============ TOP BAR ============ -->
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a href="#" class="topbar-brand">OUR FUTURE</a>
+
+      <div class="signin-wrap">
+        <button class="signin-btn" id="signinToggle" aria-expanded="false">
+          Sign In
+          <span class="chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="signin-menu" id="signinMenu">
+          <button data-role="admin">🛡️ Administrator</button>
+          <button data-role="teacher">📚 Teacher</button>
+          <button data-role="parent">👨‍👩‍👧 Parent</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO WITH SLIDESHOW ============ -->
   <header class="hero">
-    <div class="hero-inner">
+    <div class="hero-slides">
+      <div class="hero-slide active" data-slide="0">
+        <p class="hero-text">
+          If learners are our future, then understanding, educating, and
+          developing every learner is an investment in the future of society.
+        </p>
+      </div>
+      <div class="hero-slide" data-slide="1">
+        <p class="hero-text">
+          Education should not leave a student's development to fate simply
+          because a school lacks the resources to observe that student closely.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-content">
       <img src="logo.png" alt="OUR FUTURE — The learner is our future" class="brand-logo" />
-      <p class="mission">
-        If learners are our future, then understanding, educating, and developing
-        every learner is an investment in the future of society.
-      </p>
-      <p class="mission">
-        Education should not leave a student's development to fate simply because
-        a school lacks the resources to observe that student closely.
-      </p>
+    </div>
+
+    <!-- Slide indicators -->
+    <div class="slide-dots">
+      <button class="dot active" data-goto="0" aria-label="Slide 1"></button>
+      <button class="dot" data-goto="1" aria-label="Slide 2"></button>
     </div>
   </header>
 
-  <!-- ============ LOGIN SECTION ============ -->
-  <main class="login-section">
-    <h2 class="section-title">Sign in to your dashboard</h2>
-    <p class="section-subtitle">Choose your role to continue</p>
+  <!-- ============ LOGIN MODAL ============ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
 
-    <!-- Role selector buttons -->
-    <div class="role-buttons">
-      <button class="role-btn active" data-role="admin">
-        <span class="role-icon">🛡️</span>
-        <span>Administrator</span>
-      </button>
-      <button class="role-btn" data-role="teacher">
-        <span class="role-icon">📚</span>
-        <span>Teacher</span>
-      </button>
-      <button class="role-btn" data-role="parent">
-        <span class="role-icon">👨‍👩‍👧</span>
-        <span>Parent</span>
-      </button>
-    </div>
-
-    <!-- Forms -->
-    <div class="forms-container">
+      <h3 class="modal-title" id="modalTitle">Sign In</h3>
+      <p class="modal-subtitle" id="modalSubtitle">Choose your role below</p>
 
       <!-- Administrator form -->
-      <form class="login-form active" id="form-admin">
-        <h3>Administrator Login</h3>
+      <form class="login-form" id="form-admin">
         <label>
           School ID
           <input type="text" placeholder="Enter School ID" required />
@@ -63,7 +78,6 @@
 
       <!-- Teacher form -->
       <form class="login-form" id="form-teacher">
-        <h3>Teacher Login</h3>
         <label>
           Teacher ID
           <input type="text" placeholder="Enter Teacher ID" required />
@@ -81,7 +95,6 @@
 
       <!-- Parent form -->
       <form class="login-form" id="form-parent">
-        <h3>Parent Login</h3>
         <label>
           Student's Name
           <input type="text" placeholder="Enter Student's Full Name" required />
@@ -92,9 +105,8 @@
         </label>
         <button type="submit" class="submit-btn">Login as Parent</button>
       </form>
-
     </div>
-  </main>
+  </div>
 
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
