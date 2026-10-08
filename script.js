@@ -2,25 +2,31 @@
    OUR FUTURE — interactions
    ========================================================= */
 
-/* ---------- 1. SIGN-IN DROPDOWN ---------- */
-const signinWrap = document.querySelector('.signin-wrap');
-const signinToggle = document.getElementById('signinToggle');
-const signinMenu = document.getElementById('signinMenu');
+/* ---------- 1. SIDEBAR (Sign In) ---------- */
+const sidebar         = document.getElementById('sidebar');
+const sidebarOpenBtn  = document.getElementById('sidebarOpen');
+const sidebarCloseBtn = document.getElementById('sidebarClose');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
-signinToggle.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const isOpen = signinWrap.classList.toggle('open');
-  signinToggle.setAttribute('aria-expanded', isOpen);
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebarBackdrop.classList.add('open');
+}
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('open');
+}
+
+sidebarOpenBtn.addEventListener('click', openSidebar);
+sidebarCloseBtn.addEventListener('click', closeSidebar);
+sidebarBackdrop.addEventListener('click', closeSidebar);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSidebar();
 });
 
-document.addEventListener('click', (e) => {
-  if (!signinWrap.contains(e.target)) {
-    signinWrap.classList.remove('open');
-    signinToggle.setAttribute('aria-expanded', 'false');
-  }
-});
-
-/* ---------- 2. OPEN LOGIN MODAL ---------- */
+/* ---------- 2. OPEN LOGIN MODAL FROM SIDEBAR ---------- */
 const modalOverlay  = document.getElementById('modalOverlay');
 const modalClose    = document.getElementById('modalClose');
 const modalTitle    = document.getElementById('modalTitle');
@@ -34,7 +40,7 @@ const roleTitles = {
 };
 
 function openLogin(role) {
-  signinWrap.classList.remove('open');
+  closeSidebar();
   loginForms.forEach(f => f.classList.remove('active'));
   const form = document.getElementById('form-' + role);
   if (form) form.classList.add('active');
@@ -44,7 +50,7 @@ function openLogin(role) {
   modalOverlay.classList.add('open');
 }
 
-signinMenu.querySelectorAll('button').forEach(btn => {
+document.querySelectorAll('.sidebar-role').forEach(btn => {
   btn.addEventListener('click', () => openLogin(btn.dataset.role));
 });
 
@@ -52,11 +58,9 @@ signinMenu.querySelectorAll('button').forEach(btn => {
 function closeModal() { modalOverlay.classList.remove('open'); }
 
 modalClose.addEventListener('click', closeModal);
-
 modalOverlay.addEventListener('click', (e) => {
   if (e.target === modalOverlay) closeModal();
 });
-
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modalOverlay.classList.contains('open')) {
     closeModal();
@@ -72,9 +76,16 @@ loginForms.forEach(form => {
   });
 });
 
-/* ---------- 5. FADE-IN PAGES ON SCROLL ---------- */
-const pages = document.querySelectorAll('.page-content');
+/* ---------- 5. PAGE 1 LOGO CLICK — INVERT COLORS ---------- */
+const page1Logo = document.getElementById('page1Logo');
+if (page1Logo) {
+  page1Logo.addEventListener('click', () => {
+    page1Logo.classList.toggle('inverted');
+  });
+}
 
+/* ---------- 6. FADE-IN PAGES ON SCROLL ---------- */
+const pages = document.querySelectorAll('.page-content');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -88,5 +99,5 @@ pages.forEach(p => {
   observer.observe(p);
 });
 
-/* ---------- 6. AUTO YEAR ---------- */
+/* ---------- 7. AUTO YEAR ---------- */
 document.getElementById('year').textContent = new Date().getFullYear();

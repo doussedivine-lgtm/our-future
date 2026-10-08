@@ -12,27 +12,31 @@
   <nav class="topbar">
     <div class="topbar-inner">
       <a href="#" class="topbar-logo">
-        <img src="logo.png" alt="OUR FUTURE" />
-      </a>
+  <img src="logo-white.png" alt="OUR FUTURE" />
+</a>
 
-      <div class="signin-wrap">
-        <button class="signin-btn" id="signinToggle" aria-expanded="false">
-          Sign In
-          <span class="chevron" aria-hidden="true">▾</span>
-        </button>
-        <div class="signin-menu" id="signinMenu">
-          <button data-role="admin">🛡️ Administrator</button>
-          <button data-role="teacher">📚 Teacher</button>
-          <button data-role="parent">👨‍👩‍👧 Parent</button>
-        </div>
+      <button class="signin-btn" id="sidebarOpen">
+  Sign In
+</button>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" id="sidebarClose" aria-label="Close">×</button>
+  <h3 class="sidebar-title">Sign In As</h3>
+  <button class="sidebar-role" data-role="admin">Administrator</button>
+  <button class="sidebar-role" data-role="teacher">Teacher</button>
+  <button class="sidebar-role" data-role="parent">Parent</button>
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
       </div>
     </div>
   </nav>
 
   <!-- ============ PAGE 1 — LOGO AS FULL BACKGROUND ============ -->
-  <section class="page page-1">
-    <img src="logo.png" alt="OUR FUTURE" class="page1-logo" />
-    <div class="scroll-hint">
+ <section class="page page-1" id="page1">
+  <img src="logo.png" alt="OUR FUTURE" class="page1-logo" id="page1Logo" />
+  <div class="scroll-hint">
       <span>Scroll</span>
       <span class="arrow">↓</span>
     </div>
