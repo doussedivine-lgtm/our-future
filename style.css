@@ -526,3 +526,65 @@ body {
   .sidebar { padding: 80px 20px 20px; }
   .sidebar-role { padding: 14px 16px; font-size: 0.95rem; }
 }
+/* =========================================================
+   FINAL UPDATE — adaptive topbar, full-bleed pages, cleanup
+   ========================================================= */
+
+/* ---- Reset old topbar styles we're replacing ---- */
+.topbar {
+  background: transparent !important;
+  border-bottom: 1px solid transparent !important;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* When user scrolls, topbar becomes solid */
+.topbar.scrolled {
+  background: rgba(11, 42, 91, 0.95) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.topbar-logo img {
+  height: 40px;
+  width: auto;
+  display: block;
+  transition: height 0.3s ease;
+}
+
+.topbar.scrolled .topbar-logo img {
+  height: 36px; /* slightly smaller when scrolled */
+}
+
+/* =========================================================
+   PAGE 1 — Responsive: full bleed on desktop, contained on mobile
+   ========================================================= */
+.page1-logo {
+  width: 100%;
+  height: 100vh;
+  object-fit: contain;         /* default for phones */
+  object-position: center;
+  background: #071c3d;
+  cursor: pointer;
+  transition: filter 0.4s ease;
+  padding: 60px 20px 40px;
+  display: block;
+}
+
+/* Inverted state — click to toggle */
+.page1-logo.inverted {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* On larger screens, allow full bleed */
+@media (min-width: 900px) {
+  .page1-logo {
+    object-fit: cover;         /* full bleed on laptop */
+    padding: 0;
+  }
+}
+
+/* Mobile keeps contained view with slight padding for breathing room */
+@media (max-width: 899px) {
+  .page1-logo {
+    padding: 80px 16px 60px;
+  }
+}

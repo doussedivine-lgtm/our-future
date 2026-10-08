@@ -1,8 +1,22 @@
 /* =========================================================
-   OUR FUTURE — interactions
+   OUR FUTURE — interactions (full file)
    ========================================================= */
 
-/* ---------- 1. SIDEBAR (Sign In) ---------- */
+/* ---------- 1. ADAPTIVE TOPBAR (blur → solid on scroll) ---------- */
+const topbar = document.querySelector('.topbar');
+
+function updateTopbar() {
+  if (window.scrollY > 40) {
+    topbar.classList.add('scrolled');
+  } else {
+    topbar.classList.remove('scrolled');
+  }
+}
+
+window.addEventListener('scroll', updateTopbar, { passive: true });
+updateTopbar(); // run once on load
+
+/* ---------- 2. SIDEBAR (Sign In) ---------- */
 const sidebar         = document.getElementById('sidebar');
 const sidebarOpenBtn  = document.getElementById('sidebarOpen');
 const sidebarCloseBtn = document.getElementById('sidebarClose');
@@ -26,7 +40,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeSidebar();
 });
 
-/* ---------- 2. OPEN LOGIN MODAL FROM SIDEBAR ---------- */
+/* ---------- 3. OPEN LOGIN MODAL FROM SIDEBAR ---------- */
 const modalOverlay  = document.getElementById('modalOverlay');
 const modalClose    = document.getElementById('modalClose');
 const modalTitle    = document.getElementById('modalTitle');
@@ -54,7 +68,7 @@ document.querySelectorAll('.sidebar-role').forEach(btn => {
   btn.addEventListener('click', () => openLogin(btn.dataset.role));
 });
 
-/* ---------- 3. CLOSE MODAL ---------- */
+/* ---------- 4. CLOSE MODAL ---------- */
 function closeModal() { modalOverlay.classList.remove('open'); }
 
 modalClose.addEventListener('click', closeModal);
@@ -67,7 +81,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ---------- 4. FORM SUBMISSIONS (placeholder) ---------- */
+/* ---------- 5. FORM SUBMISSIONS (placeholder) ---------- */
 loginForms.forEach(form => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -76,7 +90,7 @@ loginForms.forEach(form => {
   });
 });
 
-/* ---------- 5. PAGE 1 LOGO CLICK — INVERT COLORS ---------- */
+/* ---------- 6. PAGE 1 LOGO CLICK — INVERT COLORS ---------- */
 const page1Logo = document.getElementById('page1Logo');
 if (page1Logo) {
   page1Logo.addEventListener('click', () => {
@@ -84,7 +98,7 @@ if (page1Logo) {
   });
 }
 
-/* ---------- 6. FADE-IN PAGES ON SCROLL ---------- */
+/* ---------- 7. FADE-IN PAGES ON SCROLL ---------- */
 const pages = document.querySelectorAll('.page-content');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -99,5 +113,5 @@ pages.forEach(p => {
   observer.observe(p);
 });
 
-/* ---------- 7. AUTO YEAR ---------- */
+/* ---------- 8. AUTO YEAR ---------- */
 document.getElementById('year').textContent = new Date().getFullYear();
