@@ -91,11 +91,18 @@ loginForms.forEach(form => {
 });
 
 /* ---------- 6. PAGE 1 LOGO CLICK — INVERT COLORS ---------- */
-const page1Logo = document.getElementById('page1Logo');
-if (page1Logo) {
-  page1Logo.addEventListener('click', () => {
-    page1Logo.classList.toggle('inverted');
-  });
+const page1LogoDesktop = document.getElementById('page1LogoDesktop');
+const page1LogoMobile  = document.getElementById('page1LogoMobile');
+
+function toggleInvert(el) {
+  if (el) el.classList.toggle('inverted');
+}
+
+if (page1LogoDesktop) {
+  page1LogoDesktop.addEventListener('click', () => toggleInvert(page1LogoDesktop));
+}
+if (page1LogoMobile) {
+  page1LogoMobile.addEventListener('click', () => toggleInvert(page1LogoMobile));
 }
 
 /* ---------- 7. FADE-IN PAGES ON SCROLL ---------- */

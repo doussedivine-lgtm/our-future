@@ -588,3 +588,61 @@ body {
     padding: 80px 16px 60px;
   }
 }
+/* =========================================================
+   RESPONSIVE LOGO — wide on laptop, tall on phone
+   ========================================================= */
+
+/* Hide both by default; we'll show the right one per device */
+.logo-desktop,
+.logo-mobile {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;    /* full bleed */
+  object-position: center;
+  background: #071c3d;
+  cursor: pointer;
+  transition: filter 0.4s ease;
+}
+
+/* Show the WIDE version on laptops (wide screens) */
+@media (min-width: 900px) {
+  .logo-desktop { display: block; }
+}
+
+/* Show the TALL version on phones and tablets */
+@media (max-width: 899px) {
+  .logo-mobile { display: block; }
+}
+
+/* Inverted state (click to swap colors) */
+.logo-desktop.inverted,
+.logo-mobile.inverted {
+  filter: invert(1) hue-rotate(180deg);
+}
+/* =========================================================
+   BRAND UPDATE — new logo files
+   ========================================================= */
+
+/* Topbar uses the white transparent logo now */
+.topbar-logo img {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+/* Optional: show the primary (full-color) logo on the modal */
+/* Uncomment if you want it inside the login popup */
+/*
+.modal::before {
+  content: "";
+  display: block;
+  width: 160px;
+  height: 90px;
+  margin: 0 auto 16px;
+  background-image: url('logo-primary.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+*/
