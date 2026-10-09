@@ -1,46 +1,40 @@
 /* =========================================================
-   OUR FUTURE — interactions (full file)
+   OUR FUTURE — script.js (clean)
    ========================================================= */
 
-/* ---------- 1. ADAPTIVE TOPBAR (blur → solid on scroll) ---------- */
+/* ---------- 1. ADAPTIVE TOPBAR ---------- */
 const topbar = document.querySelector('.topbar');
 
 function updateTopbar() {
-  if (window.scrollY > 40) {
-    topbar.classList.add('scrolled');
-  } else {
-    topbar.classList.remove('scrolled');
-  }
+  if (!topbar) return;
+  if (window.scrollY > 40) topbar.classList.add('scrolled');
+  else topbar.classList.remove('scrolled');
 }
-
 window.addEventListener('scroll', updateTopbar, { passive: true });
-updateTopbar(); // run once on load
+updateTopbar();
 
-/* ---------- 2. SIDEBAR (Sign In) ---------- */
+/* ---------- 2. SIDEBAR ---------- */
 const sidebar         = document.getElementById('sidebar');
 const sidebarOpenBtn  = document.getElementById('sidebarOpen');
 const sidebarCloseBtn = document.getElementById('sidebarClose');
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
 function openSidebar() {
+  if (!sidebar) return;
   sidebar.classList.add('open');
-  sidebarBackdrop.classList.add('open');
+  if (sidebarBackdrop) sidebarBackdrop.classList.add('open');
 }
-
 function closeSidebar() {
+  if (!sidebar) return;
   sidebar.classList.remove('open');
-  sidebarBackdrop.classList.remove('open');
+  if (sidebarBackdrop) sidebarBackdrop.classList.remove('open');
 }
 
-sidebarOpenBtn.addEventListener('click', openSidebar);
-sidebarCloseBtn.addEventListener('click', closeSidebar);
-sidebarBackdrop.addEventListener('click', closeSidebar);
+if (sidebarOpenBtn)  sidebarOpenBtn.addEventListener('click', openSidebar);
+if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeSidebar();
-});
-
-/* ---------- 3. OPEN LOGIN MODAL FROM SIDEBAR ---------- */
+/* ---------- 3. LOGIN MODAL ---------- */
 const modalOverlay  = document.getElementById('modalOverlay');
 const modalClose    = document.getElementById('modalClose');
 const modalTitle    = document.getElementById('modalTitle');
@@ -58,85 +52,54 @@ function openLogin(role) {
   loginForms.forEach(f => f.classList.remove('active'));
   const form = document.getElementById('form-' + role);
   if (form) form.classList.add('active');
-
-  modalTitle.textContent = roleTitles[role] || 'Sign In';
-  modalSubtitle.textContent = 'Enter your details to continue';
-  modalOverlay.classList.add('open');
+  if (modalTitle) modalTitle.textContent = roleTitles[role] || 'Sign In';
+  if (modalSubtitle) modalSubtitle.textContent = 'Enter your details to continue';
+  if (modalOverlay) modalOverlay.classList.add('open');
 }
 
 document.querySelectorAll('.sidebar-role').forEach(btn => {
   btn.addEventListener('click', () => openLogin(btn.dataset.role));
 });
 
-/* ---------- 4. CLOSE MODAL ---------- */
-function closeModal() { modalOverlay.classList.remove('open'); }
+function closeModal() {
+  if (modalOverlay) modalOverlay.classList.remove('open');
+}
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modalOverlay) {
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+}
 
-modalClose.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', (e) => {
-  if (e.target === modalOverlay) closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modalOverlay.classList.contains('open')) {
-    closeModal();
-  }
-});
-
-/* ---------- 5. FORM SUBMISSIONS (placeholder) ---------- */
+/* ---------- 4. FORM SUBMISSIONS (placeholder) ---------- */
 loginForms.forEach(form => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const role = form.id.replace('form-', '');
-    alert(`✅ ${role.charAt(0).toUpperCase() + role.slice(1)} login submitted!\n\n(Real login logic comes next.)`);
+    alert('Login submitted as: ' + role);
   });
 });
 
-/* ---------- 6. PAGE 1 LOGO CLICK — INVERT COLORS ---------- */
-const page1LogoDesktop = document.getElementById('page1LogoDesktop');
-const page1LogoMobile  = document.getElementById('page1LogoMobile');
-
-function toggleInvert(el) {
-  if (el) el.classList.toggle('inverted');
-}
-
-// Use both 'click' and 'touchend' to be safe on phones
+/* ---------- 5. PAGE 1 LOGO INVERT ---------- */
 function attachInvert(el) {
   if (!el) return;
-  el.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleInvert(el);
-  });
+  el.addEventListener('click', () => el.classList.toggle('inverted'));
   el.addEventListener('touchend', (e) => {
     e.preventDefault();
-    toggleInvert(el);
+    el.classList.toggle('inverted');
   }, { passive: false });
 }
+attachInvert(document.getElementById('page1LogoDesktop'));
+attachInvert(document.getElementById('page1LogoMobile'));
 
-attachInvert(page1LogoDesktop);
-attachInvert(page1LogoMobile);
-
-/* ---------- 6b. SIDEBAR — ensure touch works ---------- */
-// (Only if sign-in button also fails on phone)
-const sidebarOpenBtn2 = document.getElementById('sidebarOpen');
-if (sidebarOpenBtn2) {
-  sidebarOpenBtn2.addEventListener('touchend', (e) => {
-    e.preventDefault();
-    openSidebar();
-  }, { passive: false });
-}
-/* ---------- 7. FADE-IN PAGES ON SCROLL ---------- */
-const pages = document.querySelectorAll('.page-content');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.animationPlayState = 'running';
-    }
-  });
-}, { threshold: 0.25 });
-
-pages.forEach(p => {
-  p.style.animationPlayState = 'paused';
-  observer.observe(p);
+/* ---------- 6. ESC KEY ---------- */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeSidebar();
+    if (modalOverlay && modalOverlay.classList.contains('open')) closeModal();
+  }
 });
 
-/* ---------- 8. AUTO YEAR ---------- */
-document.getElementById('year').textContent = new Date().getFullYear();
+/* ---------- 7. AUTO YEAR ---------- */
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
