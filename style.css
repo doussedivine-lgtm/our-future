@@ -646,3 +646,13 @@ body {
   background-position: center;
 }
 */
+/* Match the image's black background so it blends with the hero */
+.page-1 {
+  background: #000000 !important;  /* pure black, same as the logo image */
+}
+
+.page1-logo,
+.logo-desktop,
+.logo-mobile {
+  background: #000000 !important;
+}

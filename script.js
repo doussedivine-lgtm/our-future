@@ -98,13 +98,31 @@ function toggleInvert(el) {
   if (el) el.classList.toggle('inverted');
 }
 
-if (page1LogoDesktop) {
-  page1LogoDesktop.addEventListener('click', () => toggleInvert(page1LogoDesktop));
-}
-if (page1LogoMobile) {
-  page1LogoMobile.addEventListener('click', () => toggleInvert(page1LogoMobile));
+// Use both 'click' and 'touchend' to be safe on phones
+function attachInvert(el) {
+  if (!el) return;
+  el.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleInvert(el);
+  });
+  el.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    toggleInvert(el);
+  }, { passive: false });
 }
 
+attachInvert(page1LogoDesktop);
+attachInvert(page1LogoMobile);
+
+/* ---------- 6b. SIDEBAR — ensure touch works ---------- */
+// (Only if sign-in button also fails on phone)
+const sidebarOpenBtn2 = document.getElementById('sidebarOpen');
+if (sidebarOpenBtn2) {
+  sidebarOpenBtn2.addEventListener('touchend', (e) => {
+    e.preventDefault();
+    openSidebar();
+  }, { passive: false });
+}
 /* ---------- 7. FADE-IN PAGES ON SCROLL ---------- */
 const pages = document.querySelectorAll('.page-content');
 const observer = new IntersectionObserver((entries) => {
