@@ -1,17 +1,17 @@
 /* =========================================================
-   OUR FUTURE — script.js (clean)
+   OUR FUTURE — script.js (final clean version)
    ========================================================= */
 
 /* ---------- 1. ADAPTIVE TOPBAR ---------- */
-const topbar = document.querySelector('.topbar');
+const siteTopbar = document.querySelector('.topbar');
 
-function updateTopbar() {
-  if (!topbar) return;
-  if (window.scrollY > 40) topbar.classList.add('scrolled');
-  else topbar.classList.remove('scrolled');
+function updateSiteTopbar() {
+  if (!siteTopbar) return;
+  if (window.scrollY > 40) siteTopbar.classList.add('scrolled');
+  else siteTopbar.classList.remove('scrolled');
 }
-window.addEventListener('scroll', updateTopbar, { passive: true });
-updateTopbar();
+window.addEventListener('scroll', updateSiteTopbar, { passive: true });
+updateSiteTopbar();
 
 /* ---------- 2. SIDEBAR ---------- */
 const sidebar         = document.getElementById('sidebar');
