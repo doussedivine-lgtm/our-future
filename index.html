@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OUR FUTURE — The Learner Is Our Future</title>
   <link rel="icon" type="image/png" href="favicon.png" />
- <link rel="stylesheet" href="style.css?v=100" />
+  <link rel="stylesheet" href="style.css?v=200" />
 </head>
 <body>
 
@@ -13,38 +13,25 @@
   <nav class="topbar">
     <div class="topbar-inner">
       <a href="#" class="topbar-logo">
-  <img src="logo-white.png" alt="OUR FUTURE" />
-</a>
-
-      <button class="signin-btn" id="sidebarOpen">
-  Sign In
-</button>
-
-<!-- Sidebar -->
-<aside class="sidebar" id="sidebar">
-  <button class="sidebar-close" id="sidebarClose" aria-label="Close">×</button>
-  <h3 class="sidebar-title">Sign In As</h3>
-  <button class="sidebar-role" data-role="admin">Administrator</button>
-  <button class="sidebar-role" data-role="teacher">Teacher</button>
-  <button class="sidebar-role" data-role="parent">Parent</button>
-</aside>
-
-<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-      </div>
+        <img src="logo-white.png" alt="OUR FUTURE" />
+      </a>
+      <button class="enter-btn" id="enterSchoolBtn">
+        Enter Your School
+      </button>
     </div>
   </nav>
 
   <!-- ============ PAGE 1 — LOGO AS FULL BACKGROUND ============ -->
- <section class="page page-1" id="page1">
-  <img src="logo-wide.png" alt="OUR FUTURE" class="page1-logo logo-desktop" id="page1LogoDesktop" />
-<img src="logo-tall.png" alt="OUR FUTURE" class="page1-logo logo-mobile" id="page1LogoMobile" />
-  <div class="scroll-hint">
+  <section class="page page-1">
+    <img src="logo-wide.png" alt="OUR FUTURE" class="page1-logo logo-desktop" id="page1LogoDesktop" />
+    <img src="logo-tall.png" alt="OUR FUTURE" class="page1-logo logo-mobile" id="page1LogoMobile" />
+    <div class="scroll-hint">
       <span>Scroll</span>
       <span class="arrow">↓</span>
     </div>
   </section>
 
-  <!-- ============ PAGE 2 — WELCOME (STARRY SKY) ============ -->
+  <!-- ============ PAGE 2 — WELCOME ============ -->
   <section class="page page-2">
     <div class="page-content">
       <h2 class="page-heading">WELCOME TO <span>OUR FUTURE</span></h2>
@@ -55,7 +42,7 @@
     </div>
   </section>
 
-  <!-- ============ PAGE 3 — THIS IS OUR FUTURE (BOY) ============ -->
+  <!-- ============ PAGE 3 — THIS IS OUR FUTURE ============ -->
   <section class="page page-3">
     <div class="page-content">
       <h2 class="page-heading">THIS IS <span>OUR FUTURE</span></h2>
@@ -71,49 +58,114 @@
     <p>© <span id="year"></span> OUR FUTURE — Every learner matters.</p>
   </footer>
 
-  <!-- ============ LOGIN MODAL ============ -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+  <!-- ============ SCHOOL GATE (SCHOOL ID + PASSWORD) ============ -->
+  <div class="modal-overlay" id="gateOverlay">
+    <div class="modal gate-modal">
+      <button class="modal-close" id="gateClose" aria-label="Close">×</button>
+      <div class="gate-icon">🏫</div>
+      <h3 class="modal-title">Enter Your School</h3>
+      <p class="modal-subtitle">Sign in with your school's credentials</p>
 
-      <h3 class="modal-title" id="modalTitle">Sign In</h3>
-      <p class="modal-subtitle" id="modalSubtitle">Choose your role below</p>
-
-      <form class="login-form" id="form-admin">
-        <label>School ID
-          <input type="text" placeholder="Enter School ID" required />
+      <form id="gateForm">
+        <label>
+          School ID
+          <input type="text" id="gateSchoolId" placeholder="e.g. STMARY" required autocomplete="off" />
         </label>
-        <label>Password
-          <input type="password" placeholder="Enter Password" required />
+        <label>
+          Password
+          <input type="password" id="gatePassword" placeholder="Enter school password" required />
         </label>
-        <button type="submit" class="submit-btn">Login as Administrator</button>
+        <p class="form-error" id="gateError"></p>
+        <button type="submit" class="submit-btn">Enter School</button>
       </form>
 
-      <form class="login-form" id="form-teacher">
-        <label>Teacher ID
-          <input type="text" placeholder="Enter Teacher ID" required />
-        </label>
-        <label>Class
-          <input type="text" placeholder="e.g. Grade 5A" required />
-        </label>
-        <label>Password
-          <input type="password" placeholder="Enter Password" required />
-        </label>
-        <button type="submit" class="submit-btn">Login as Teacher</button>
-      </form>
-
-      <form class="login-form" id="form-parent">
-        <label>Student's Name
-          <input type="text" placeholder="Enter Student's Full Name" required />
-        </label>
-        <label>Password
-          <input type="password" placeholder="Enter Password" required />
-        </label>
-        <button type="submit" class="submit-btn">Login as Parent</button>
-      </form>
+      <p class="gate-hint">
+        Demo IDs: <code>STMARY</code> · <code>ACCRA01</code> · <code>KUMASI02</code>
+      </p>
     </div>
   </div>
 
-  <script src="script.js?v=888"></script>
+  <!-- ============ SCHOOL PORTAL (AFTER GATE) ============ -->
+  <div class="modal-overlay" id="portalOverlay">
+    <div class="modal portal-modal">
+      <button class="modal-close" id="portalClose" aria-label="Close">×</button>
+
+      <div class="portal-header">
+        <div class="portal-school-icon">🏫</div>
+        <h3 class="portal-school-name" id="portalSchoolName">School Name</h3>
+        <p class="portal-school-location" id="portalSchoolLocation">Location</p>
+      </div>
+
+      <!-- Step A: role chooser -->
+      <div class="portal-step" id="portalStepRoles">
+        <p class="portal-prompt">Sign in as:</p>
+        <button class="role-button" data-role="admin">
+          <span class="role-emoji">🛡️</span>
+          <span>Administrator</span>
+        </button>
+        <button class="role-button" data-role="teacher">
+          <span class="role-emoji">📚</span>
+          <span>Teacher</span>
+        </button>
+        <button class="role-button" data-role="parent">
+          <span class="role-emoji">👨‍👩‍👧</span>
+          <span>Parent</span>
+        </button>
+      </div>
+
+      <!-- Step B: role-specific form -->
+      <div class="portal-step" id="portalStepForm" style="display:none;">
+        <button class="back-link" id="backToRoles">← Back to roles</button>
+        <h4 class="role-form-title" id="roleFormTitle">Login</h4>
+
+        <!-- Administrator form -->
+        <form class="login-form" id="form-admin">
+          <label>
+            School ID
+            <input type="text" id="adminSchoolId" placeholder="Your School ID" required />
+          </label>
+          <label>
+            Password
+            <input type="password" placeholder="Enter Password" required />
+          </label>
+          <button type="submit" class="submit-btn">Login as Administrator</button>
+        </form>
+
+        <!-- Teacher form -->
+        <form class="login-form" id="form-teacher">
+          <label>
+            Teacher ID
+            <input type="text" placeholder="Enter Teacher ID" required />
+          </label>
+          <label>
+            Class
+            <input type="text" placeholder="e.g. Grade 5A" required />
+          </label>
+          <label>
+            Password
+            <input type="password" placeholder="Enter Password" required />
+          </label>
+          <button type="submit" class="submit-btn">Login as Teacher</button>
+        </form>
+
+        <!-- Parent form -->
+        <form class="login-form" id="form-parent">
+          <label>
+            Student's Name
+            <input type="text" placeholder="Enter Student's Full Name" required />
+          </label>
+          <label>
+            Password
+            <input type="password" placeholder="Enter Password" required />
+          </label>
+          <button type="submit" class="submit-btn">Login as Parent</button>
+        </form>
+      </div>
+
+      <button class="change-school-link" id="changeSchool">← Change School</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=200"></script>
 </body>
 </html>
