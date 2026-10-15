@@ -844,3 +844,344 @@ body {
 /* ---- Login forms — reuse but ensure display toggles ---- */
 .login-form { display: none; flex-direction: column; gap: 14px; }
 .login-form.active { display: flex; }
+/* =========================================================
+   STAGE 2 (v2) — School Gate + Full-screen Welcome
+   ========================================================= */
+
+/* ---- Topbar "Enter Your School" button ---- */
+.enter-btn {
+  padding: 10px 20px;
+  background: var(--accent);
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.1s;
+}
+.enter-btn:hover { background: #ffb52e; }
+.enter-btn:active { transform: scale(0.98); }
+
+/* =========================================================
+   PASSWORD FIELD + EYE BUTTON
+   ========================================================= */
+.password-wrap {
+  position: relative;
+  display: block;
+}
+
+.password-wrap input {
+  width: 100%;
+  padding-right: 44px !important;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--text-soft);
+  line-height: 1;
+}
+.eye-btn:hover { background: #eef3fb; }
+.eye-btn.showing { color: var(--mid-blue); }
+
+/* =========================================================
+   GATE MODAL
+   ========================================================= */
+.gate-modal { max-width: 420px; }
+
+.gate-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.gate-modal label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  gap: 6px;
+}
+
+.gate-modal input {
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid #d6ddea;
+  border-radius: 10px;
+  background: #fbfcff;
+  font-family: inherit;
+  color: var(--text-dark);
+  width: 100%;
+}
+.gate-modal input:focus {
+  outline: none;
+  border-color: var(--mid-blue);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+  background: #fff;
+}
+
+.form-error {
+  color: #c02626;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  min-height: 1em;
+  margin: 0;
+}
+
+.gate-hint {
+  margin-top: 18px;
+  font-size: 0.75rem;
+  color: #8a97ad;
+  text-align: center;
+}
+.gate-hint code {
+  background: #eef3fb;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  color: var(--deep-blue);
+}
+
+/* =========================================================
+   FULL-SCREEN SCHOOL WELCOME PAGE
+   ========================================================= */
+.school-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: none;
+  background-image: url('bg-boy.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto;
+}
+.school-welcome.open { display: block; }
+
+.school-welcome-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 18, 40, 0.75),
+    rgba(6, 18, 40, 0.85)
+  );
+  z-index: 1;
+}
+
+.school-welcome-close {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.school-welcome-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+.school-welcome-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
+  text-align: center;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.welcome-step {
+  width: 100%;
+  animation: fadeUp 0.4s ease both;
+}
+
+.welcome-kicker {
+  font-size: 0.85rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.welcome-brand {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #fff;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.welcome-brand.small { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 8px; }
+
+.welcome-school {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.welcome-location {
+  font-size: 0.9rem;
+  color: #d6e0f5;
+  margin-bottom: 32px;
+}
+
+.welcome-prompt {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #b8c8e6;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.welcome-roles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.role-button {
+  padding: 16px 22px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--deep-blue);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  text-align: center;
+}
+.role-button:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.back-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 14px;
+  font-family: inherit;
+}
+.back-link:hover { text-decoration: underline; }
+
+.role-form-title {
+  color: #fff;
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+/* Login forms inside the welcome page */
+.school-welcome .login-form {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  max-width: 380px;
+  margin: 0 auto 8px;
+}
+.school-welcome .login-form.active { display: flex; }
+
+.school-welcome .login-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d6e0f5;
+  gap: 6px;
+}
+
+.school-welcome .login-form input {
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  color: var(--text-dark);
+  width: 100%;
+}
+.school-welcome .login-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+  background: #fff;
+}
+
+.school-welcome .submit-btn {
+  margin-top: 6px;
+  padding: 13px;
+  background: var(--accent);
+  color: #1a1a1a;
+  font-size: 0.98rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.1s;
+}
+.school-welcome .submit-btn:hover { background: #ffb52e; }
+.school-welcome .submit-btn:active { transform: scale(0.98); }
+
+.school-welcome .eye-btn {
+  color: var(--text-soft);
+}
+.school-welcome .eye-btn:hover { background: #eef3fb; }
+
+.change-school-link {
+  display: block;
+  margin: 24px auto 0;
+  background: none;
+  border: none;
+  color: #b8c8e6;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 12px;
+}
+.change-school-link:hover { color: #fff; }
+
+/* ---- Mobile ---- */
+@media (max-width: 600px) {
+  .school-welcome-content { padding: 80px 18px 40px; }
+  .welcome-roles { gap: 10px; }
+  .role-button { padding: 14px 18px; font-size: 0.95rem; }
+}

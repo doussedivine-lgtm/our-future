@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OUR FUTURE — The Learner Is Our Future</title>
   <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="stylesheet" href="style.css?v=200" />
+  <link rel="stylesheet" href="style.css?v=201" />
 </head>
 <body>
 
@@ -21,7 +21,7 @@
     </div>
   </nav>
 
-  <!-- ============ PAGE 1 — LOGO AS FULL BACKGROUND ============ -->
+  <!-- ============ PAGE 1 — LOGO FULL BG ============ -->
   <section class="page page-1">
     <img src="logo-wide.png" alt="OUR FUTURE" class="page1-logo logo-desktop" id="page1LogoDesktop" />
     <img src="logo-tall.png" alt="OUR FUTURE" class="page1-logo logo-mobile" id="page1LogoMobile" />
@@ -62,7 +62,6 @@
   <div class="modal-overlay" id="gateOverlay">
     <div class="modal gate-modal">
       <button class="modal-close" id="gateClose" aria-label="Close">×</button>
-      <div class="gate-icon">🏫</div>
       <h3 class="modal-title">Enter Your School</h3>
       <p class="modal-subtitle">Sign in with your school's credentials</p>
 
@@ -73,7 +72,10 @@
         </label>
         <label>
           Password
-          <input type="password" id="gatePassword" placeholder="Enter school password" required />
+          <span class="password-wrap">
+            <input type="password" id="gatePassword" placeholder="Enter school password" required />
+            <button type="button" class="eye-btn" data-target="gatePassword" aria-label="Show password">👁</button>
+          </span>
         </label>
         <p class="form-error" id="gateError"></p>
         <button type="submit" class="submit-btn">Enter School</button>
@@ -85,40 +87,41 @@
     </div>
   </div>
 
-  <!-- ============ SCHOOL PORTAL (AFTER GATE) ============ -->
-  <div class="modal-overlay" id="portalOverlay">
-    <div class="modal portal-modal">
-      <button class="modal-close" id="portalClose" aria-label="Close">×</button>
+  <!-- ============ SCHOOL WELCOME PAGE (FULL SCREEN) ============ -->
+  <div class="school-welcome" id="schoolWelcome">
 
-      <div class="portal-header">
-        <div class="portal-school-icon">🏫</div>
-        <h3 class="portal-school-name" id="portalSchoolName">School Name</h3>
-        <p class="portal-school-location" id="portalSchoolLocation">Location</p>
+    <div class="school-welcome-overlay"></div>
+
+    <button class="school-welcome-close" id="portalClose" aria-label="Close">×</button>
+
+    <div class="school-welcome-content">
+
+      <!-- STEP A: Welcome + roles -->
+      <div class="welcome-step" id="portalStepRoles">
+        <p class="welcome-kicker">WELCOME TO</p>
+        <h1 class="welcome-brand">OUR FUTURE</h1>
+        <p class="welcome-school" id="portalSchoolName">School Name</p>
+        <p class="welcome-location" id="portalSchoolLocation">Location</p>
+
+        <p class="welcome-prompt">Sign in as:</p>
+
+        <div class="welcome-roles">
+          <button class="role-button" data-role="admin">Administrator</button>
+          <button class="role-button" data-role="teacher">Teacher</button>
+          <button class="role-button" data-role="parent">Parent</button>
+        </div>
       </div>
 
-      <!-- Step A: role chooser -->
-      <div class="portal-step" id="portalStepRoles">
-        <p class="portal-prompt">Sign in as:</p>
-        <button class="role-button" data-role="admin">
-          <span class="role-emoji">🛡️</span>
-          <span>Administrator</span>
-        </button>
-        <button class="role-button" data-role="teacher">
-          <span class="role-emoji">📚</span>
-          <span>Teacher</span>
-        </button>
-        <button class="role-button" data-role="parent">
-          <span class="role-emoji">👨‍👩‍👧</span>
-          <span>Parent</span>
-        </button>
-      </div>
+      <!-- STEP B: Role-specific login form -->
+      <div class="welcome-step" id="portalStepForm" style="display:none;">
+        <h2 class="welcome-brand small">OUR FUTURE</h2>
+        <p class="welcome-school" id="portalSchoolNameForm">School Name</p>
 
-      <!-- Step B: role-specific form -->
-      <div class="portal-step" id="portalStepForm" style="display:none;">
         <button class="back-link" id="backToRoles">← Back to roles</button>
-        <h4 class="role-form-title" id="roleFormTitle">Login</h4>
 
-        <!-- Administrator form -->
+        <h3 class="role-form-title" id="roleFormTitle">Login</h3>
+
+        <!-- Administrator -->
         <form class="login-form" id="form-admin">
           <label>
             School ID
@@ -126,12 +129,15 @@
           </label>
           <label>
             Password
-            <input type="password" placeholder="Enter Password" required />
+            <span class="password-wrap">
+              <input type="password" placeholder="Enter Password" required />
+              <button type="button" class="eye-btn" aria-label="Show password">👁</button>
+            </span>
           </label>
           <button type="submit" class="submit-btn">Login as Administrator</button>
         </form>
 
-        <!-- Teacher form -->
+        <!-- Teacher -->
         <form class="login-form" id="form-teacher">
           <label>
             Teacher ID
@@ -143,12 +149,15 @@
           </label>
           <label>
             Password
-            <input type="password" placeholder="Enter Password" required />
+            <span class="password-wrap">
+              <input type="password" placeholder="Enter Password" required />
+              <button type="button" class="eye-btn" aria-label="Show password">👁</button>
+            </span>
           </label>
           <button type="submit" class="submit-btn">Login as Teacher</button>
         </form>
 
-        <!-- Parent form -->
+        <!-- Parent -->
         <form class="login-form" id="form-parent">
           <label>
             Student's Name
@@ -156,16 +165,20 @@
           </label>
           <label>
             Password
-            <input type="password" placeholder="Enter Password" required />
+            <span class="password-wrap">
+              <input type="password" placeholder="Enter Password" required />
+              <button type="button" class="eye-btn" aria-label="Show password">👁</button>
+            </span>
           </label>
           <button type="submit" class="submit-btn">Login as Parent</button>
         </form>
+
+        <button class="change-school-link" id="changeSchool">← Change School</button>
       </div>
 
-      <button class="change-school-link" id="changeSchool">← Change School</button>
     </div>
   </div>
 
-  <script src="script.js?v=200"></script>
+  <script src="script.js?v=201"></script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 /* =========================================================
-   OUR FUTURE — Stage 2
+   OUR FUTURE — Stage 2 (v2)
    ========================================================= */
 
-/* ---------- FAKE SCHOOL DATABASE (for testing only) ---------- */
+/* ---------- FAKE SCHOOL DATABASE ---------- */
 const SCHOOLS = {
-  STMARY:    { name: "St. Mary's Basic School",      location: "Accra, Ghana",   password: "stmary123"  },
-  ACCRA01:   { name: "Accra Model Primary School",    location: "Accra, Ghana",   password: "accra123"   },
-  KUMASI02:  { name: "Kumasi Hope Academy",           location: "Kumasi, Ghana",  password: "kumasi123"  }
+  STMARY:    { name: "St. Mary's Basic School",   location: "Accra, Ghana",  password: "stmary123"  },
+  ACCRA01:   { name: "Accra Model Primary School", location: "Accra, Ghana",  password: "accra123"   },
+  KUMASI02:  { name: "Kumasi Hope Academy",        location: "Kumasi, Ghana", password: "kumasi123"  }
 };
 
 let currentSchoolId = null;
@@ -21,7 +21,32 @@ function updateSiteTopbar() {
 window.addEventListener('scroll', updateSiteTopbar, { passive: true });
 updateSiteTopbar();
 
-/* ---------- 2. SCHOOL GATE ---------- */
+/* ---------- 2. PASSWORD EYE TOGGLES ---------- */
+document.querySelectorAll('.eye-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.dataset.target;
+    let input;
+    if (targetId) {
+      input = document.getElementById(targetId);
+    } else {
+      // fallback: find the input inside the same wrapper
+      input = btn.parentElement.querySelector('input');
+    }
+    if (!input) return;
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.classList.add('showing');
+      btn.setAttribute('aria-label', 'Hide password');
+    } else {
+      input.type = 'password';
+      btn.classList.remove('showing');
+      btn.setAttribute('aria-label', 'Show password');
+    }
+  });
+});
+
+/* ---------- 3. SCHOOL GATE ---------- */
 const gateOverlay  = document.getElementById('gateOverlay');
 const gateClose    = document.getElementById('gateClose');
 const gateForm     = document.getElementById('gateForm');
@@ -67,21 +92,22 @@ if (gateForm) {
     gateError.textContent = '';
     gateForm.reset();
     closeGate();
-    openPortal();
+    openSchoolWelcome();
   });
 }
 
-/* ---------- 3. SCHOOL PORTAL ---------- */
-const portalOverlay    = document.getElementById('portalOverlay');
-const portalClose      = document.getElementById('portalClose');
-const portalSchoolName = document.getElementById('portalSchoolName');
-const portalSchoolLoc  = document.getElementById('portalSchoolLocation');
-const portalStepRoles  = document.getElementById('portalStepRoles');
-const portalStepForm   = document.getElementById('portalStepForm');
-const backToRoles      = document.getElementById('backToRoles');
-const roleFormTitle    = document.getElementById('roleFormTitle');
-const changeSchool     = document.getElementById('changeSchool');
-const loginForms       = document.querySelectorAll('.login-form');
+/* ---------- 4. SCHOOL WELCOME PAGE ---------- */
+const schoolWelcome       = document.getElementById('schoolWelcome');
+const portalClose         = document.getElementById('portalClose');
+const portalSchoolName    = document.getElementById('portalSchoolName');
+const portalSchoolLoc     = document.getElementById('portalSchoolLocation');
+const portalSchoolNameForm = document.getElementById('portalSchoolNameForm');
+const portalStepRoles     = document.getElementById('portalStepRoles');
+const portalStepForm      = document.getElementById('portalStepForm');
+const backToRoles         = document.getElementById('backToRoles');
+const roleFormTitle       = document.getElementById('roleFormTitle');
+const changeSchool        = document.getElementById('changeSchool');
+const loginForms          = document.querySelectorAll('.login-form');
 
 const roleTitles = {
   admin:   'Administrator Login',
@@ -89,57 +115,52 @@ const roleTitles = {
   parent:  'Parent Login'
 };
 
-function openPortal() {
+function openSchoolWelcome() {
   if (!currentSchoolId) return;
   const school = SCHOOLS[currentSchoolId];
-  portalSchoolName.textContent = school.name;
-  portalSchoolLoc.textContent  = school.location;
 
-  // Always start at the role chooser
+  portalSchoolName.textContent     = school.name;
+  portalSchoolLoc.textContent      = school.location;
+  portalSchoolNameForm.textContent = school.name;
+
+  // Reset view: show roles, hide form
   portalStepRoles.style.display = 'block';
   portalStepForm.style.display  = 'none';
   loginForms.forEach(f => f.classList.remove('active'));
 
-  portalOverlay.classList.add('open');
+  schoolWelcome.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-function closePortal() {
-  if (portalOverlay) portalOverlay.classList.remove('open');
+function closeSchoolWelcome() {
+  schoolWelcome.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-if (portalClose) portalClose.addEventListener('click', closePortal);
-if (portalOverlay) {
-  portalOverlay.addEventListener('click', (e) => {
-    if (e.target === portalOverlay) closePortal();
-  });
-}
+if (portalClose) portalClose.addEventListener('click', closeSchoolWelcome);
 
-/* ---------- 4. ROLE BUTTONS ---------- */
+/* ---------- 5. ROLE BUTTONS ---------- */
 document.querySelectorAll('.role-button').forEach(btn => {
   btn.addEventListener('click', () => {
     const role = btn.dataset.role;
 
-    // Hide roles, show form
     portalStepRoles.style.display = 'none';
     portalStepForm.style.display  = 'block';
 
-    // Set title
     roleFormTitle.textContent = roleTitles[role] || 'Login';
 
-    // Show the matching form
     loginForms.forEach(f => f.classList.remove('active'));
     const form = document.getElementById('form-' + role);
     if (form) form.classList.add('active');
 
-    // Pre-fill admin School ID with the school they just entered
     if (role === 'admin' && currentSchoolId) {
-      const adminSchoolIdInput = document.getElementById('adminSchoolId');
-      if (adminSchoolIdInput) adminSchoolIdInput.value = currentSchoolId;
+      const adminIdInput = document.getElementById('adminSchoolId');
+      if (adminIdInput) adminIdInput.value = currentSchoolId;
     }
   });
 });
 
-/* ---------- 5. BACK TO ROLES ---------- */
+/* ---------- 6. BACK TO ROLES ---------- */
 if (backToRoles) {
   backToRoles.addEventListener('click', () => {
     portalStepForm.style.display  = 'none';
@@ -147,20 +168,20 @@ if (backToRoles) {
   });
 }
 
-/* ---------- 6. CHANGE SCHOOL ---------- */
+/* ---------- 7. CHANGE SCHOOL ---------- */
 if (changeSchool) {
   changeSchool.addEventListener('click', () => {
     currentSchoolId = null;
-    closePortal();
+    closeSchoolWelcome();
     openGate();
   });
 }
 
-/* ---------- 7. ROLE FORM SUBMISSIONS (placeholder) ---------- */
+/* ---------- 8. ROLE FORM SUBMISSIONS (placeholder) ---------- */
 loginForms.forEach(form => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const role  = form.id.replace('form-', '');
+    const role   = form.id.replace('form-', '');
     const school = currentSchoolId ? SCHOOLS[currentSchoolId].name : '';
     alert(
       '✅ Login submitted!\n\n' +
@@ -171,7 +192,7 @@ loginForms.forEach(form => {
   });
 });
 
-/* ---------- 8. PAGE 1 LOGO INVERT ---------- */
+/* ---------- 9. PAGE 1 LOGO INVERT ---------- */
 function attachInvert(el) {
   if (!el) return;
   el.addEventListener('click', () => el.classList.toggle('inverted'));
@@ -183,15 +204,15 @@ function attachInvert(el) {
 attachInvert(document.getElementById('page1LogoDesktop'));
 attachInvert(document.getElementById('page1LogoMobile'));
 
-/* ---------- 9. ESC KEY ---------- */
+/* ---------- 10. ESC KEY ---------- */
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    if (gateOverlay && gateOverlay.classList.contains('open'))   closeGate();
-    if (portalOverlay && portalOverlay.classList.contains('open')) closePortal();
+    if (gateOverlay && gateOverlay.classList.contains('open'))     closeGate();
+    if (schoolWelcome && schoolWelcome.classList.contains('open')) closeSchoolWelcome();
   }
 });
 
-/* ---------- 10. FADE-IN PAGES ON SCROLL ---------- */
+/* ---------- 11. FADE-IN PAGES ON SCROLL ---------- */
 const pages = document.querySelectorAll('.page-content');
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver((entries) => {
@@ -207,6 +228,6 @@ if ('IntersectionObserver' in window) {
   });
 }
 
-/* ---------- 11. AUTO YEAR ---------- */
+/* ---------- 12. AUTO YEAR ---------- */
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
